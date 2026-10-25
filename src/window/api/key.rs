@@ -1,0 +1,41 @@
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub enum Key {
+    W,
+    A,
+    S,
+    D,
+    Q,
+    E,
+    UpArrow,
+    LeftArrow,
+    DownArrow,
+    RightArrow,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
+    Zero,
+    Esc,
+    Tab,
+    Caps,
+    LeftShift,
+    RightShift,
+    LeftCtrl,
+    RightCtrl,
+    LeftAlt,
+    RightAlt,
+    Space,
+    H,
+    J,
+    K,
+    L,
+}
