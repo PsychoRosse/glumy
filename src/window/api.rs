@@ -18,7 +18,7 @@ mod window_handle;
 mod window_handle_error;
 mod window_id;
 
-pub use self::{
+pub use {
     application::Application, button::Button, button_status::ButtonStatus, closing::Closing,
     event_loop_error::EventLoopError, key::Key, key_status::KeyStatus,
     keyboard_event::KeyboardEvent, mouse_event::MouseEvent, mouse_wheel_event::MouseWheelEvent,

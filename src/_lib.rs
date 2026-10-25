@@ -2,4 +2,4 @@ mod window;
 
 pub mod prelude;
 
-pub use window::{api::*, backend::*};
+pub use window::{api::*, backend::*, plugin::*};

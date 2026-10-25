@@ -1,6 +1,6 @@
 [package]
 name = "glumy"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2024"
 description = "A lightweight graphics abstraction layer built on wgpu and winit."
 license = "MIT OR Apache-2.0"
@@ -22,11 +22,10 @@ thiserror = { version = "2.0.21" }
 raw-window-handle = { version = "0.6.2" }
 
 plam = { version = "0.2.0" }
+clama = { version = "0.1.0" }
 
 serde = { version = "1.0.229", features = ["derive"], optional = true }
-clama = { version = "0.1.0", optional = true }
 
 [features]
-default = ["serde", "clama"]
+default = ["serde"]
 serde = ["dep:serde"]
-clama = ["dep:clama"]
