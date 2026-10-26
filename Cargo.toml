@@ -1,6 +1,6 @@
 [package]
 name = "glumy"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 description = "A lightweight graphics abstraction layer built on wgpu and winit."
 license = "MIT OR Apache-2.0"
@@ -10,7 +10,7 @@ keywords = ["graphics", "wgpu"]
 categories = ["game-development"]
 
 [lib]
-path = "src/_lib.rs"
+path = "glumy-core/_lib.rs"
 
 [dependencies]
 wgpu = { version = "30.0.1" }
