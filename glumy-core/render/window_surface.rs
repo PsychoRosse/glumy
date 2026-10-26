@@ -1,46 +1,28 @@
-use crate::{GraphicsDevice, InstanceError, TextureView, WindowSurfaceDescriptor};
+use crate::{GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, TextureView};
 
 use plam::SurfaceSize;
 
 pub struct WindowSurface {
     surface: wgpu::Surface<'static>,
-    config: wgpu::SurfaceConfiguration,
+    config: Option<wgpu::SurfaceConfiguration>,
 }
 
 impl WindowSurface {
-    pub fn new(desc: &WindowSurfaceDescriptor) -> Self {
+    pub fn new(instance: &GpuInstance, surface_target: SurfaceTarget) -> Self {
         let surface = unsafe {
-            desc.instance
+            instance
                 .get()
                 .create_surface_unsafe(wgpu::SurfaceTargetUnsafe::RawHandle {
-                    raw_display_handle: Some(desc.surface_target.raw_display()),
-                    raw_window_handle: desc.surface_target.raw_window(),
+                    raw_display_handle: Some(surface_target.raw_display()),
+                    raw_window_handle: surface_target.raw_window(),
                 })
                 .unwrap_or_else(|_| panic!("{}", InstanceError::SurfaceCreate))
         };
 
-        let capabilities = surface.get_capabilities(desc.adapter.get());
-
-        let format = capabilities
-            .formats
-            .iter()
-            .copied()
-            .find(wgpu::TextureFormat::is_srgb)
-            .unwrap_or(capabilities.formats[0]);
-
-        let config = wgpu::SurfaceConfiguration {
-            usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-            format,
-            width: desc.surface_size.width(),
-            height: desc.surface_size.height(),
-            present_mode: wgpu::PresentMode::Fifo,
-            alpha_mode: capabilities.alpha_modes[0],
-            view_formats: vec![],
-            desired_maximum_frame_latency: 2,
-            color_space: wgpu::SurfaceColorSpace::Srgb,
-        };
-
-        Self { surface, config }
+        Self {
+            surface,
+            config: None,
+        }
     }
 }
 
@@ -54,24 +36,31 @@ impl WindowSurface {
     }
 
     pub fn configure(&self, device: &GraphicsDevice) {
-        self.surface.configure(device.get(), &self.config);
+        if let Some(config) = &self.config {
+            self.surface.configure(device.get(), config);
+        }
     }
 }
 
 impl WindowSurface {
+    pub(crate) fn set_config(&mut self, config: Option<wgpu::SurfaceConfiguration>) {
+        self.config = config
+    }
     pub(crate) fn get<'s>(&self) -> &wgpu::Surface<'s> {
         &self.surface
     }
 
-    pub(crate) fn config(&self) -> &wgpu::SurfaceConfiguration {
-        &self.config
+    pub(crate) fn config(&self) -> Option<&wgpu::SurfaceConfiguration> {
+        self.config.as_ref()
     }
 
     pub(crate) fn resize(&mut self, device: &GraphicsDevice, size: SurfaceSize) {
-        self.config.width = size.width();
-        self.config.height = size.height();
+        if let Some(config) = &mut self.config {
+            config.width = size.width();
+            config.height = size.height();
 
-        self.surface.configure(device.get(), &self.config);
+            self.surface.configure(device.get(), config);
+        }
     }
 
     pub(crate) fn create_view(frame: &wgpu::SurfaceTexture) -> TextureView {
