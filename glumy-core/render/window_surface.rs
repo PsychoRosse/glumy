@@ -1,4 +1,7 @@
-use crate::{GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, TextureView, WhatFrame};
+use crate::{
+    GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, SurfaceTexture, TextureView,
+    WhatFrame,
+};
 
 use plam::SurfaceSize;
 
@@ -31,13 +34,13 @@ impl WindowSurface {
 }
 
 impl WindowSurface {
-    pub fn acquire_view(&self) -> (Option<TextureView>, WhatFrame) {
+    pub fn acquire_view(&self) -> (Option<SurfaceTexture>, WhatFrame) {
         match self.surface.get_current_texture() {
             wgpu::CurrentSurfaceTexture::Success(frame) => {
-                (Some(Self::create_view(&frame)), WhatFrame::Success)
+                (Some(SurfaceTexture::new(frame)), WhatFrame::Success)
             }
             wgpu::CurrentSurfaceTexture::Suboptimal(frame) => {
-                (Some(Self::create_view(&frame)), WhatFrame::Suboptimal)
+                (Some(SurfaceTexture::new(frame)), WhatFrame::Suboptimal)
             }
             _ => (None, WhatFrame::Unknown),
         }
@@ -45,6 +48,15 @@ impl WindowSurface {
 
     pub fn configure(&self, device: &GraphicsDevice) {
         if let Some(config) = &self.config {
+            self.surface.configure(device.get(), config);
+        }
+    }
+
+    pub fn resize(&mut self, device: &GraphicsDevice, size: SurfaceSize) {
+        if let Some(config) = &mut self.config {
+            config.width = size.width();
+            config.height = size.height();
+
             self.surface.configure(device.get(), config);
         }
     }
@@ -60,22 +72,5 @@ impl WindowSurface {
 
     pub(crate) fn config(&self) -> Option<&wgpu::SurfaceConfiguration> {
         self.config.as_ref()
-    }
-
-    pub(crate) fn resize(&mut self, device: &GraphicsDevice, size: SurfaceSize) {
-        if let Some(config) = &mut self.config {
-            config.width = size.width();
-            config.height = size.height();
-
-            self.surface.configure(device.get(), config);
-        }
-    }
-
-    pub(crate) fn create_view(frame: &wgpu::SurfaceTexture) -> TextureView {
-        TextureView::new(
-            frame
-                .texture
-                .create_view(&wgpu::TextureViewDescriptor::default()),
-        )
     }
 }
