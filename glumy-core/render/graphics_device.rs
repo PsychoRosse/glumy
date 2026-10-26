@@ -1,26 +1,27 @@
-use crate::{Adapter, CommandEncoder, GpuInstance, InstanceError, SurfaceTexture, WindowSurface};
+use crate::{Adapter, CommandEncoder, InstanceError, SurfaceTexture};
 
-use std::iter::once;
+use {pollster::block_on, std::iter::once};
 
+#[cfg(feature = "clama")]
+use clama::Resource;
+
+#[cfg_attr(feature = "clama", derive(Resource))]
 pub struct GraphicsDevice {
     device: wgpu::Device,
     queue: wgpu::Queue,
 }
 
 impl GraphicsDevice {
-    pub async fn new(adapter: &Adapter) -> Self {
-        let (device, queue) = adapter
-            .get()
-            .request_device(&wgpu::DeviceDescriptor {
-                label: Some("Glumy Device"),
-                required_features: wgpu::Features::empty(),
-                required_limits: wgpu::Limits::defaults(),
-                experimental_features: wgpu::ExperimentalFeatures::disabled(),
-                memory_hints: wgpu::MemoryHints::Performance,
-                trace: wgpu::Trace::Off,
-            })
-            .await
-            .unwrap_or_else(|_| panic!("{}", InstanceError::DeviceCreate));
+    pub fn new(adapter: &Adapter) -> Self {
+        let (device, queue) = block_on(adapter.get().request_device(&wgpu::DeviceDescriptor {
+            label: Some("Glumy Device"),
+            required_features: wgpu::Features::empty(),
+            required_limits: wgpu::Limits::defaults(),
+            experimental_features: wgpu::ExperimentalFeatures::disabled(),
+            memory_hints: wgpu::MemoryHints::Performance,
+            trace: wgpu::Trace::Off,
+        }))
+        .unwrap_or_else(|_| panic!("{}", InstanceError::DeviceCreate));
 
         Self { device, queue }
     }

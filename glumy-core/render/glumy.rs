@@ -5,13 +5,13 @@ use plam::SurfaceSize;
 pub struct Glumy;
 
 impl Glumy {
-    pub async fn create(
+    pub fn create(
         surface_target: SurfaceTarget,
         surface_size: SurfaceSize,
     ) -> (GpuInstance, WindowSurface, Adapter, GraphicsDevice) {
         let instance = GpuInstance::default();
         let mut surface = WindowSurface::new(&instance, surface_target);
-        let adapter = Adapter::new(&instance, &surface).await;
+        let adapter = Adapter::new(&instance, &surface);
 
         let capabilities = surface.get().get_capabilities(adapter.get());
 
@@ -36,7 +36,7 @@ impl Glumy {
 
         surface.set_config(Some(config));
 
-        let device = GraphicsDevice::new(&adapter).await;
+        let device = GraphicsDevice::new(&adapter);
 
         (instance, surface, adapter, device)
     }

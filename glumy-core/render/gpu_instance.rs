@@ -1,3 +1,7 @@
+#[cfg(feature = "clama")]
+use clama::Resource;
+
+#[cfg_attr(feature = "clama", derive(Resource))]
 pub struct GpuInstance {
     instance: wgpu::Instance,
 }
