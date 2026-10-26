@@ -1,4 +1,4 @@
-use crate::{GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, TextureView};
+use crate::{GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, TextureView, WhatFrame};
 
 use plam::SurfaceSize;
 
@@ -31,11 +31,15 @@ impl WindowSurface {
 }
 
 impl WindowSurface {
-    pub fn acquire_view(&self) -> Option<TextureView> {
+    pub fn acquire_view(&self) -> (Option<TextureView>, WhatFrame) {
         match self.surface.get_current_texture() {
-            wgpu::CurrentSurfaceTexture::Success(frame) => Some(Self::create_view(&frame)),
-            wgpu::CurrentSurfaceTexture::Suboptimal(frame) => Some(Self::create_view(&frame)),
-            _ => None,
+            wgpu::CurrentSurfaceTexture::Success(frame) => {
+                (Some(Self::create_view(&frame)), WhatFrame::Success)
+            }
+            wgpu::CurrentSurfaceTexture::Suboptimal(frame) => {
+                (Some(Self::create_view(&frame)), WhatFrame::Suboptimal)
+            }
+            _ => (None, WhatFrame::Unknown),
         }
     }
 
