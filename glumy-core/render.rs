@@ -1,3 +1,4 @@
+mod adapter;
 mod command_encoder;
 mod current_surface_texture;
 mod gpu_instance;
@@ -10,8 +11,9 @@ mod window_surface;
 mod window_surface_descriptor;
 
 pub use {
-    command_encoder::CommandEncoder, current_surface_texture::CurrentSurfaceTexture,
-    gpu_instance::GpuInstance, graphics_device::GraphicsDevice, instance_error::InstanceError,
-    render_pass::RenderPass, surface_texture::SurfaceTexture, texture_view::TextureView,
-    window_surface::WindowSurface, window_surface_descriptor::WindowSurfaceDescriptor,
+    adapter::Adapter, command_encoder::CommandEncoder,
+    current_surface_texture::CurrentSurfaceTexture, gpu_instance::GpuInstance,
+    graphics_device::GraphicsDevice, instance_error::InstanceError, render_pass::RenderPass,
+    surface_texture::SurfaceTexture, texture_view::TextureView, window_surface::WindowSurface,
+    window_surface_descriptor::WindowSurfaceDescriptor,
 };

@@ -19,7 +19,7 @@ impl WindowSurface {
                 .unwrap_or_else(|_| panic!("{}", InstanceError::SurfaceCreate))
         };
 
-        let capabilities = surface.get_capabilities(desc.device.adapter());
+        let capabilities = surface.get_capabilities(desc.adapter.get());
 
         let format = capabilities
             .formats
@@ -40,8 +40,6 @@ impl WindowSurface {
             color_space: wgpu::SurfaceColorSpace::Srgb,
         };
 
-        surface.configure(desc.device.get(), &config);
-
         Self { surface, config }
     }
 }
@@ -53,6 +51,10 @@ impl WindowSurface {
             wgpu::CurrentSurfaceTexture::Suboptimal(frame) => Some(Self::create_view(&frame)),
             _ => None,
         }
+    }
+
+    pub fn configure(&self, device: &GraphicsDevice) {
+        self.surface.configure(device.get(), &self.config);
     }
 }
 

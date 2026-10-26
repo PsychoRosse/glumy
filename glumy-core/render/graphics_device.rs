@@ -1,27 +1,16 @@
-use crate::{CommandEncoder, GpuInstance, InstanceError, SurfaceTexture, WindowSurface};
+use crate::{Adapter, CommandEncoder, GpuInstance, InstanceError, SurfaceTexture, WindowSurface};
 
 use std::iter::once;
 
 pub struct GraphicsDevice {
-    adapter: wgpu::Adapter,
     device: wgpu::Device,
     queue: wgpu::Queue,
 }
 
 impl GraphicsDevice {
-    pub async fn new(instance: &GpuInstance, surface: &WindowSurface) -> Self {
-        let adapter = instance
-            .get()
-            .request_adapter(&wgpu::RequestAdapterOptions {
-                power_preference: wgpu::PowerPreference::HighPerformance,
-                force_fallback_adapter: false,
-                compatible_surface: Some(surface.get()),
-                apply_limit_buckets: false,
-            })
-            .await
-            .unwrap_or_else(|_| panic!("{}", InstanceError::AdapterRequest));
-
+    pub async fn new(adapter: &Adapter) -> Self {
         let (device, queue) = adapter
+            .get()
             .request_device(&wgpu::DeviceDescriptor {
                 label: Some("Glumy Device"),
                 required_features: wgpu::Features::empty(),
@@ -33,11 +22,7 @@ impl GraphicsDevice {
             .await
             .unwrap_or_else(|_| panic!("{}", InstanceError::DeviceCreate));
 
-        Self {
-            adapter,
-            device,
-            queue,
-        }
+        Self { device, queue }
     }
 }
 
@@ -58,9 +43,5 @@ impl GraphicsDevice {
 impl GraphicsDevice {
     pub(crate) fn get(&self) -> &wgpu::Device {
         &self.device
-    }
-
-    pub(crate) fn adapter(&self) -> &wgpu::Adapter {
-        &self.adapter
     }
 }
