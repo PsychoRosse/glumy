@@ -17,13 +17,11 @@ impl SurfaceTarget {
 }
 
 impl SurfaceTarget {
-    #[inline]
     #[must_use]
     pub fn raw_display(&self) -> RawDisplayHandle {
         self.raw_display
     }
 
-    #[inline]
     #[must_use]
     pub fn raw_window(&self) -> RawWindowHandle {
         self.raw_window

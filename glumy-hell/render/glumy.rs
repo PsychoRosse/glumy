@@ -1,4 +1,4 @@
-use crate::{Adapter, GpuInstance, GraphicsDevice, SurfaceTarget, WindowSurface};
+use crate::{GlumyHell, GlumyHellError, GpuInstance, GraphicsDevice, SurfaceTarget, WindowSurface};
 
 use plam::SurfaceSize;
 
@@ -8,12 +8,12 @@ impl Glumy {
     pub fn create(
         surface_target: SurfaceTarget,
         surface_size: SurfaceSize,
-    ) -> (GpuInstance, WindowSurface, Adapter, GraphicsDevice) {
+    ) -> Result<GlumyHell, GlumyHellError> {
         let instance = GpuInstance::default();
-        let mut surface = WindowSurface::new(&instance, surface_target);
-        let adapter = Adapter::new(&instance, &surface);
+        let mut surface = WindowSurface::new(&instance, surface_target)?;
+        let device = GraphicsDevice::new(&instance, &surface)?;
 
-        let capabilities = surface.get().get_capabilities(adapter.get());
+        let capabilities = surface.get().get_capabilities(device.adapter());
 
         let format = capabilities
             .formats
@@ -34,10 +34,13 @@ impl Glumy {
             color_space: wgpu::SurfaceColorSpace::Srgb,
         };
 
-        surface.set_config(Some(config));
+        surface.set_config(config);
+        surface.configure(&device);
 
-        let device = GraphicsDevice::new(&adapter);
-
-        (instance, surface, adapter, device)
+        Ok(GlumyHell {
+            instance,
+            surface,
+            device,
+        })
     }
 }

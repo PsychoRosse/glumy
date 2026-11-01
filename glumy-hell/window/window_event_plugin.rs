@@ -5,7 +5,6 @@ pub use {
     plam::{MousePosition, SurfaceSize},
 };
 
-#[derive(Clone, Copy)]
 pub struct WindowEventPlugin;
 
 impl Plugin for WindowEventPlugin {

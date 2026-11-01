@@ -7,6 +7,7 @@ pub struct WindowId(usize);
 
 impl WindowId {
     #[inline]
+    #[must_use]
     pub fn new(id: usize) -> Self {
         Self(id)
     }

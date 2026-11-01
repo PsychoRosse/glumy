@@ -6,7 +6,6 @@ use plam::{MousePosition, MouseScroll, MouseScrollDelta, SurfaceSize};
 
 use winit::{event, keyboard};
 
-#[derive(Clone, Copy)]
 pub struct WinitEventConverter;
 
 impl WinitEventConverter {

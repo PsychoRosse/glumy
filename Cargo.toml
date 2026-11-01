@@ -10,7 +10,7 @@ keywords = ["graphics", "wgpu"]
 categories = ["game-development"]
 
 [lib]
-path = "glumy-core/_lib.rs"
+path = "glumy-hell/_lib.rs"
 
 [dependencies]
 wgpu = { version = "30.0.1" }
@@ -22,7 +22,6 @@ thiserror = { version = "2.0.21" }
 raw-window-handle = { version = "0.6.2" }
 
 plam = { version = "0.2.0" }
-
 
 serde = { version = "1.0.229", features = ["derive"], optional = true }
 clama = { version = "0.1.0", optional = true }

@@ -1,5 +1,5 @@
 use crate::{
-    GpuInstance, GraphicsDevice, InstanceError, SurfaceTarget, SurfaceTexture, TextureView,
+    AcquireFrame, GlumyHellError, GpuInstance, GraphicsDevice, SurfaceTarget, SurfaceTexture,
     WhatFrame,
 };
 
@@ -15,7 +15,10 @@ pub struct WindowSurface {
 }
 
 impl WindowSurface {
-    pub fn new(instance: &GpuInstance, surface_target: SurfaceTarget) -> Self {
+    pub fn new(
+        instance: &GpuInstance,
+        surface_target: SurfaceTarget,
+    ) -> Result<Self, GlumyHellError> {
         let surface = unsafe {
             instance
                 .get()
@@ -23,26 +26,26 @@ impl WindowSurface {
                     raw_display_handle: Some(surface_target.raw_display()),
                     raw_window_handle: surface_target.raw_window(),
                 })
-                .unwrap_or_else(|_| panic!("{}", InstanceError::SurfaceCreate))
+                .map_err(|_| GlumyHellError::SurfaceCreate)?
         };
 
-        Self {
+        Ok(Self {
             surface,
             config: None,
-        }
+        })
     }
 }
 
 impl WindowSurface {
-    pub fn acquire_view(&self) -> (Option<SurfaceTexture>, WhatFrame) {
+    pub fn acquire_frame(&self) -> AcquireFrame {
         match self.surface.get_current_texture() {
             wgpu::CurrentSurfaceTexture::Success(frame) => {
-                (Some(SurfaceTexture::new(frame)), WhatFrame::Success)
+                AcquireFrame::Frame(Some(SurfaceTexture::new(frame)), WhatFrame::Success)
             }
             wgpu::CurrentSurfaceTexture::Suboptimal(frame) => {
-                (Some(SurfaceTexture::new(frame)), WhatFrame::Suboptimal)
+                AcquireFrame::Frame(Some(SurfaceTexture::new(frame)), WhatFrame::Suboptimal)
             }
-            _ => (None, WhatFrame::Unknown),
+            _ => AcquireFrame::Frame(None, WhatFrame::Unknown),
         }
     }
 
@@ -63,14 +66,23 @@ impl WindowSurface {
 }
 
 impl WindowSurface {
-    pub(crate) fn set_config(&mut self, config: Option<wgpu::SurfaceConfiguration>) {
-        self.config = config
+    pub(crate) fn set_config(&mut self, config: wgpu::SurfaceConfiguration) {
+        self.config = Some(config)
     }
-    pub(crate) fn get<'s>(&self) -> &wgpu::Surface<'s> {
-        &self.surface
+
+    pub(crate) fn format(&self) -> Option<wgpu::TextureFormat> {
+        if let Some(config) = &self.config {
+            return Some(config.format);
+        }
+
+        None
     }
 
     pub(crate) fn config(&self) -> Option<&wgpu::SurfaceConfiguration> {
         self.config.as_ref()
+    }
+
+    pub(crate) fn get<'s>(&self) -> &wgpu::Surface<'s> {
+        &self.surface
     }
 }

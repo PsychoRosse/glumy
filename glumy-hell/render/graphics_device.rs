@@ -1,4 +1,4 @@
-use crate::{Adapter, CommandEncoder, InstanceError, SurfaceTexture};
+use crate::{CommandEncoder, GlumyHellError, GpuInstance, SurfaceTexture, WindowSurface};
 
 use {pollster::block_on, std::iter::once};
 
@@ -7,13 +7,26 @@ use clama::Resource;
 
 #[cfg_attr(feature = "clama", derive(Resource))]
 pub struct GraphicsDevice {
+    adapter: wgpu::Adapter,
     device: wgpu::Device,
     queue: wgpu::Queue,
 }
 
 impl GraphicsDevice {
-    pub fn new(adapter: &Adapter) -> Self {
-        let (device, queue) = block_on(adapter.get().request_device(&wgpu::DeviceDescriptor {
+    pub fn new(instance: &GpuInstance, surface: &WindowSurface) -> Result<Self, GlumyHellError> {
+        let adapter = block_on(
+            instance
+                .get()
+                .request_adapter(&wgpu::RequestAdapterOptions {
+                    power_preference: wgpu::PowerPreference::HighPerformance,
+                    force_fallback_adapter: false,
+                    compatible_surface: Some(surface.get()),
+                    apply_limit_buckets: false,
+                }),
+        )
+        .map_err(|_| GlumyHellError::AdapterRequest)?;
+
+        let (device, queue) = block_on(adapter.request_device(&wgpu::DeviceDescriptor {
             label: Some("Glumy Device"),
             required_features: wgpu::Features::empty(),
             required_limits: wgpu::Limits::defaults(),
@@ -21,9 +34,13 @@ impl GraphicsDevice {
             memory_hints: wgpu::MemoryHints::Performance,
             trace: wgpu::Trace::Off,
         }))
-        .unwrap_or_else(|_| panic!("{}", InstanceError::DeviceCreate));
+        .map_err(|_| GlumyHellError::DeviceCreate)?;
 
-        Self { device, queue }
+        Ok(Self {
+            adapter,
+            device,
+            queue,
+        })
     }
 }
 
@@ -44,5 +61,13 @@ impl GraphicsDevice {
 impl GraphicsDevice {
     pub(crate) fn get(&self) -> &wgpu::Device {
         &self.device
+    }
+
+    pub(crate) fn queue(&self) -> &wgpu::Queue {
+        &self.queue
+    }
+
+    pub(crate) fn adapter(&self) -> &wgpu::Adapter {
+        &self.adapter
     }
 }
