@@ -1,6 +1,6 @@
 use crate::{BufferError, BufferIsBuild, BufferUsages};
 
-#[derive(Default)]
+#[derive(Default, Debug, Clone)]
 pub struct BufferBuilder {
     label: Option<String>,
     usages: Option<BufferUsages>,

@@ -1,7 +1,7 @@
 use bitflags::bitflags;
 
 bitflags! {
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub struct BufferUsages: u32 {
         const MAP_READ = 1 << 0;
         const MAP_WRITE = 1 << 1;

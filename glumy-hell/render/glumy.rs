@@ -1,16 +1,13 @@
-use crate::{GlumyHell, GlumyHellError, GpuInstance, GraphicsDevice, SurfaceTarget, WindowSurface};
-
-use plam::SurfaceSize;
+use crate::{
+    GlumyDescriptor, GlumyHell, GlumyHellError, GpuInstance, GraphicsDevice, WindowSurface,
+};
 
 pub struct Glumy;
 
 impl Glumy {
-    pub fn create(
-        surface_target: SurfaceTarget,
-        surface_size: SurfaceSize,
-    ) -> Result<GlumyHell, GlumyHellError> {
+    pub fn create(desc: GlumyDescriptor) -> Result<GlumyHell, GlumyHellError> {
         let instance = GpuInstance::default();
-        let mut surface = WindowSurface::new(&instance, surface_target)?;
+        let mut surface = WindowSurface::new(&instance, desc.surface_target)?;
         let device = GraphicsDevice::new(&instance, &surface)?;
 
         let capabilities = surface.get().get_capabilities(device.adapter());
@@ -25,12 +22,12 @@ impl Glumy {
         let config = wgpu::SurfaceConfiguration {
             usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
             format,
-            width: surface_size.width(),
-            height: surface_size.height(),
-            present_mode: wgpu::PresentMode::Fifo,
+            width: desc.surface_size.width(),
+            height: desc.surface_size.height(),
+            present_mode: wgpu::PresentMode::from(desc.vsync),
             alpha_mode: capabilities.alpha_modes[0],
             view_formats: vec![],
-            desired_maximum_frame_latency: 2,
+            desired_maximum_frame_latency: desc.frame_latency,
             color_space: wgpu::SurfaceColorSpace::Srgb,
         };
 

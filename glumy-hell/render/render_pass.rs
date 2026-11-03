@@ -1,11 +1,12 @@
 use crate::{CommandEncoder, TextureView};
 
+#[derive(Debug)]
 pub struct RenderPass<'r> {
     _pass: wgpu::RenderPass<'r>,
 }
 
-impl<'a> RenderPass<'a> {
-    pub fn begin(encoder: &'a mut CommandEncoder, color: &TextureView) -> Self {
+impl<'r> RenderPass<'r> {
+    pub fn begin(encoder: &'r mut CommandEncoder, color: &TextureView) -> Self {
         Self {
             _pass: encoder
                 .get_mut()

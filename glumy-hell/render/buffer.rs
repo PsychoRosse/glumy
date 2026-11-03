@@ -1,5 +1,6 @@
 use crate::BufferUsages;
 
+#[derive(Debug, Clone)]
 pub struct Buffer {
     label: String,
     content: Vec<u8>,
@@ -7,11 +8,11 @@ pub struct Buffer {
 }
 
 impl Buffer {
-    pub fn label(&self) -> &String {
+    pub fn label(&self) -> &str {
         &self.label
     }
 
-    pub fn content(&self) -> &Vec<u8> {
+    pub fn content(&self) -> &[u8] {
         &self.content
     }
 

@@ -10,7 +10,7 @@ It provides a unified interface for graphics and window management, reducing dir
 - Window and event management through `winit`
 - Shared mathematical types via `plam`
 - Optional serialization support through `serde`
-- Optional ECS integration through `clama`
+- ECS integration through `clama`
 
 ## License
 

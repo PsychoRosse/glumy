@@ -3,12 +3,9 @@ use crate::{
     WhatFrame,
 };
 
-use plam::SurfaceSize;
+use {clama::Resource, plam::SurfaceSize};
 
-#[cfg(feature = "clama")]
-use clama::Resource;
-
-#[cfg_attr(feature = "clama", derive(Resource))]
+#[derive(Resource, Debug)]
 pub struct WindowSurface {
     surface: wgpu::Surface<'static>,
     config: Option<wgpu::SurfaceConfiguration>,

@@ -1,11 +1,9 @@
 use bitflags::bitflags;
 
-#[cfg(feature = "clama")]
 use clama::Event;
 
 bitflags! {
-    #[cfg_attr(feature = "clama", derive(Event))]
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+    #[derive(Event, Debug, Clone, Copy, PartialEq, Eq)]
     pub struct ShaderStages: u32 {
         const NONE = 1 << 0;
         const VERTEX = 1 << 1;

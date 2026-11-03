@@ -1,11 +1,8 @@
 use crate::{CommandEncoder, GlumyHellError, GpuInstance, SurfaceTexture, WindowSurface};
 
-use {pollster::block_on, std::iter::once};
+use {clama::Resource, pollster::block_on, std::iter::once};
 
-#[cfg(feature = "clama")]
-use clama::Resource;
-
-#[cfg_attr(feature = "clama", derive(Resource))]
+#[derive(Resource, Debug)]
 pub struct GraphicsDevice {
     adapter: wgpu::Adapter,
     device: wgpu::Device,
