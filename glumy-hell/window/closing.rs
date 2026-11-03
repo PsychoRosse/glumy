@@ -4,5 +4,5 @@ use clama::Event;
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Event, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Event, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Closing;

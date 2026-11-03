@@ -6,7 +6,7 @@ use clama::Event;
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Event, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Event, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct MouseEvent {
     button: Button,
     state: ButtonStatus,

@@ -2,14 +2,16 @@
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub struct WindowId(usize);
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct WindowId {
+    id: usize,
+}
 
 impl WindowId {
     #[inline]
     #[must_use]
     pub fn new(id: usize) -> Self {
-        Self(id)
+        Self { id }
     }
 }
 
@@ -17,6 +19,6 @@ impl WindowId {
     #[inline]
     #[must_use]
     pub fn get(&self) -> usize {
-        self.0
+        self.id
     }
 }

@@ -6,7 +6,7 @@ use plam::{MousePosition, SurfaceSize};
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum WindowEvent {
     CloseRequested,
     RedrawRequested,
@@ -15,5 +15,4 @@ pub enum WindowEvent {
     MouseInput(MouseEvent),
     PointerMoved(MousePosition),
     MouseWheel(MouseWheelEvent),
-    Unknown,
 }

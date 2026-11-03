@@ -6,7 +6,7 @@ use clama::Event;
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Event, Debug, Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Event, Debug, Clone, Copy, PartialEq)]
 pub struct MouseWheelEvent {
     scroll: MouseScroll,
 }
