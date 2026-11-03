@@ -27,7 +27,7 @@ impl Glumy {
             present_mode: wgpu::PresentMode::from(desc.vsync),
             alpha_mode: capabilities.alpha_modes[0],
             view_formats: vec![],
-            desired_maximum_frame_latency: desc.frame_latency,
+            desired_maximum_frame_latency: desc.frame_latency.get_number(),
             color_space: wgpu::SurfaceColorSpace::Srgb,
         };
 

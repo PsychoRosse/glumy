@@ -9,6 +9,10 @@ readme = "README.md"
 keywords = ["graphics", "wgpu"]
 categories = ["game-development"]
 
+[[bin]]
+name = "glumy"
+path = "glumy-sandbox/src/main.rs"
+
 [lib]
 path = "glumy-hell/_lib.rs"
 

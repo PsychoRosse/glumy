@@ -12,6 +12,7 @@ mod glumy_hell;
 mod glumy_hell_error;
 mod gpu_instance;
 mod graphics_device;
+mod latency;
 mod render_pass;
 mod shader_stages;
 mod surface_texture;
@@ -25,7 +26,7 @@ pub use {
     buffer_error::BufferError, buffer_is_build::BufferIsBuild, buffer_usages::BufferUsages,
     command_encoder::CommandEncoder, current_surface_texture::CurrentSurfaceTexture, glumy::Glumy,
     glumy_descriptor::GlumyDescriptor, glumy_hell::GlumyHell, glumy_hell_error::GlumyHellError,
-    gpu_instance::GpuInstance, graphics_device::GraphicsDevice, render_pass::RenderPass,
-    shader_stages::ShaderStages, surface_texture::SurfaceTexture, texture_view::TextureView,
-    vsync::Vsync, what_frame::WhatFrame, window_surface::WindowSurface,
+    gpu_instance::GpuInstance, graphics_device::GraphicsDevice, latency::Latency,
+    render_pass::RenderPass, shader_stages::ShaderStages, surface_texture::SurfaceTexture,
+    texture_view::TextureView, vsync::Vsync, what_frame::WhatFrame, window_surface::WindowSurface,
 };
