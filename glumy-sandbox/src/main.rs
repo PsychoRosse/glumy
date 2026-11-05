@@ -1,9 +1,10 @@
 use clama::{Plugin, PluginRegistry, Registry, Res, ResMut, Scheduler, Stage, World, WorldCell};
 
 use glumy::{
-    Application, EventLoopError, Glumy, GlumyDescriptor, GraphicsDevice, Latency, RenderPass,
-    SurfaceTexture, Vsync, WindowApplication, WindowAttributes, WindowEvent, WindowFrontend,
-    WindowHandle, WindowId, WindowSurface,
+    Application, Color, EventLoopError, Glumy, GlumyDescriptor, GraphicsDevice, Latency,
+    RenderPass, RenderPassColorAttach, RenderPassDepthAttach, SurfaceTexture, Vsync,
+    WindowApplication, WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId,
+    WindowSurface,
 };
 
 fn main() -> Result<(), EventLoopError> {
@@ -84,7 +85,12 @@ impl RenderPlugin {
             let mut encoder = device.create_encoder();
 
             {
-                let _ = RenderPass::begin(&mut encoder, &view);
+                let attach = RenderPassColorAttach::clear(&view, Color::rgb(0.05, 0.05, 0.05));
+
+                let _ = RenderPass::default()
+                    .with_colors(&[attach])
+                    .with_depth(None)
+                    .begin(&mut encoder);
             }
 
             device.present(encoder, frame);

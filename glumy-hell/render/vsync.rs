@@ -1,7 +1,7 @@
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Vsync {
     #[default]
-    Default,
+    On,
     Mailbox,
     Immediate,
 }
@@ -9,7 +9,7 @@ pub enum Vsync {
 impl From<Vsync> for wgpu::PresentMode {
     fn from(mode: Vsync) -> Self {
         match mode {
-            Vsync::Default => Self::Fifo,
+            Vsync::On => Self::Fifo,
             Vsync::Mailbox => Self::Mailbox,
             Vsync::Immediate => Self::Immediate,
         }
