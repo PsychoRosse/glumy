@@ -60,6 +60,7 @@ impl GraphicsDevice {
         &self.device
     }
 
+    #[allow(dead_code)]
     pub(crate) fn queue(&self) -> &wgpu::Queue {
         &self.queue
     }

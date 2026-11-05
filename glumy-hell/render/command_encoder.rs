@@ -8,6 +8,7 @@ impl CommandEncoder {
         Self { encoder }
     }
 
+    #[allow(dead_code)]
     pub(crate) fn get(&self) -> &wgpu::CommandEncoder {
         &self.encoder
     }

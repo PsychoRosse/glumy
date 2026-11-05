@@ -2,9 +2,8 @@ use clama::{Plugin, PluginRegistry, Registry, Res, ResMut, Scheduler, Stage, Wor
 
 use glumy::{
     Application, Color, EventLoopError, Glumy, GlumyDescriptor, GraphicsDevice, Latency,
-    RenderPass, RenderPassColorAttach, RenderPassDepthAttach, SurfaceTexture, Vsync,
-    WindowApplication, WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId,
-    WindowSurface,
+    RenderPass, RenderPassColorAttach, SurfaceTexture, Vsync, WindowApplication, WindowAttributes,
+    WindowEvent, WindowFrontend, WindowHandle, WindowId, WindowSurface,
 };
 
 fn main() -> Result<(), EventLoopError> {

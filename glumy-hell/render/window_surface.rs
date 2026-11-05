@@ -67,6 +67,7 @@ impl WindowSurface {
         self.config = Some(config)
     }
 
+    #[allow(dead_code)]
     pub(crate) fn format(&self) -> Option<wgpu::TextureFormat> {
         if let Some(config) = &self.config {
             return Some(config.format);
@@ -75,6 +76,7 @@ impl WindowSurface {
         None
     }
 
+    #[allow(dead_code)]
     pub(crate) fn config(&self) -> Option<&wgpu::SurfaceConfiguration> {
         self.config.as_ref()
     }

@@ -7,8 +7,7 @@ pub struct RenderPassDepthAttach<'r> {
     pub(crate) depth_load_op: wgpu::LoadOp<f32>,
     pub(crate) depth_store_op: wgpu::StoreOp,
 
-    pub(crate) stencil_load_op: Option<wgpu::LoadOp<u32>>,
-    pub(crate) stencil_store_op: Option<wgpu::StoreOp>,
+    pub(crate) stencil_ops: Option<(wgpu::LoadOp<u32>, wgpu::StoreOp)>,
 }
 
 impl<'r> RenderPassDepthAttach<'r> {
@@ -17,8 +16,7 @@ impl<'r> RenderPassDepthAttach<'r> {
             view,
             depth_load_op: wgpu::LoadOp::Clear(depth),
             depth_store_op: wgpu::StoreOp::Store,
-            stencil_load_op: None,
-            stencil_store_op: None,
+            stencil_ops: None,
         }
     }
 
@@ -27,8 +25,12 @@ impl<'r> RenderPassDepthAttach<'r> {
             view,
             depth_load_op: wgpu::LoadOp::Load,
             depth_store_op: wgpu::StoreOp::Store,
-            stencil_load_op: None,
-            stencil_store_op: None,
+            stencil_ops: None,
         }
+    }
+
+    pub fn with_stencil(mut self) -> Self {
+        self.stencil_ops = Some((wgpu::LoadOp::Clear(0), wgpu::StoreOp::Store));
+        self
     }
 }
