@@ -435,6 +435,7 @@ dependencies = [
  "pollster",
  "raw-window-handle",
  "serde",
+ "smallvec",
  "thiserror 2.0.21",
  "wgpu",
  "winit",
