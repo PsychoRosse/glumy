@@ -10,7 +10,7 @@ pub struct WindowId {
 impl WindowId {
     #[inline]
     #[must_use]
-    pub fn new(id: usize) -> Self {
+    pub const fn new(id: usize) -> Self {
         Self { id }
     }
 }
@@ -18,7 +18,7 @@ impl WindowId {
 impl WindowId {
     #[inline]
     #[must_use]
-    pub fn get(&self) -> usize {
+    pub const fn get(&self) -> usize {
         self.id
     }
 }

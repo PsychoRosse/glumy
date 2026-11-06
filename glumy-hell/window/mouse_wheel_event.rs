@@ -21,7 +21,7 @@ impl From<MouseScroll> for MouseWheelEvent {
 impl MouseWheelEvent {
     #[inline]
     #[must_use]
-    pub fn scroll(&self) -> MouseScroll {
+    pub const fn scroll(&self) -> MouseScroll {
         self.scroll
     }
 }

@@ -28,7 +28,7 @@ impl Default for WindowAttributes {
 }
 
 impl WindowAttributes {
-    pub fn with_title(mut self, title: &'static str) -> Self {
+    pub const fn with_title(mut self, title: &'static str) -> Self {
         self.title = title;
         self
     }
@@ -43,12 +43,12 @@ impl WindowAttributes {
         self
     }
 
-    pub fn with_maximized(mut self, maximized: bool) -> Self {
+    pub const fn with_maximized(mut self, maximized: bool) -> Self {
         self.maximized = maximized;
         self
     }
 
-    pub fn with_decorations(mut self, decorations: bool) -> Self {
+    pub const fn with_decorations(mut self, decorations: bool) -> Self {
         self.decorations = decorations;
         self
     }

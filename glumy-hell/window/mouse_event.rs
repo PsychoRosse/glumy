@@ -14,7 +14,7 @@ pub struct MouseEvent {
 
 impl MouseEvent {
     #[inline]
-    pub fn new(button: Button, state: ButtonStatus) -> Self {
+    pub const fn new(button: Button, state: ButtonStatus) -> Self {
         Self { button, state }
     }
 }
@@ -22,13 +22,13 @@ impl MouseEvent {
 impl MouseEvent {
     #[inline]
     #[must_use]
-    pub fn button(&self) -> Button {
+    pub const fn button(&self) -> Button {
         self.button
     }
 
     #[inline]
     #[must_use]
-    pub fn state(&self) -> ButtonStatus {
+    pub const fn state(&self) -> ButtonStatus {
         self.state
     }
 }

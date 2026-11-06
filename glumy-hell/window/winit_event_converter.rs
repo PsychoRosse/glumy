@@ -62,7 +62,7 @@ impl WinitEventConverter {
     }
 
     #[inline]
-    fn key_state(state: event::ElementState) -> KeyStatus {
+    const fn key_state(state: event::ElementState) -> KeyStatus {
         match state {
             event::ElementState::Pressed => KeyStatus::Pressed,
             event::ElementState::Released => KeyStatus::Released,
@@ -70,7 +70,7 @@ impl WinitEventConverter {
     }
 
     #[inline]
-    fn button_state(state: event::ElementState) -> ButtonStatus {
+    const fn button_state(state: event::ElementState) -> ButtonStatus {
         match state {
             event::ElementState::Pressed => ButtonStatus::Pressed,
             event::ElementState::Released => ButtonStatus::Released,
@@ -78,7 +78,7 @@ impl WinitEventConverter {
     }
 
     #[inline]
-    fn key(key: keyboard::PhysicalKey) -> Option<Key> {
+    const fn key(key: keyboard::PhysicalKey) -> Option<Key> {
         match key {
             keyboard::PhysicalKey::Code(keyboard::KeyCode::KeyA) => Some(Key::A),
             keyboard::PhysicalKey::Code(keyboard::KeyCode::KeyB) => Some(Key::B),
@@ -365,7 +365,7 @@ impl WinitEventConverter {
     }
 
     #[inline]
-    fn button(button: event::MouseButton) -> Option<Button> {
+    const fn button(button: event::MouseButton) -> Option<Button> {
         match button {
             event::MouseButton::Left => Some(Button::Left),
             event::MouseButton::Right => Some(Button::Right),

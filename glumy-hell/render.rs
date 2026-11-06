@@ -14,12 +14,15 @@ mod glumy_hell_error;
 mod gpu_instance;
 mod graphics_device;
 mod latency;
+mod material;
+mod mesh;
 mod render_pass;
 mod render_pass_color_attach;
 mod render_pass_depth_attach;
 mod shader_stages;
 mod surface_texture;
 mod texture_view;
+mod vertex;
 mod vsync;
 mod what_frame;
 mod window_surface;
@@ -30,8 +33,9 @@ pub use {
     color::Color, command_encoder::CommandEncoder, current_surface_texture::CurrentSurfaceTexture,
     glumy::Glumy, glumy_descriptor::GlumyDescriptor, glumy_hell::GlumyHell,
     glumy_hell_error::GlumyHellError, gpu_instance::GpuInstance, graphics_device::GraphicsDevice,
-    latency::Latency, render_pass::RenderPass, render_pass_color_attach::RenderPassColorAttach,
+    latency::Latency, material::Material, mesh::Mesh, render_pass::RenderPass,
+    render_pass_color_attach::RenderPassColorAttach,
     render_pass_depth_attach::RenderPassDepthAttach, shader_stages::ShaderStages,
-    surface_texture::SurfaceTexture, texture_view::TextureView, vsync::Vsync,
+    surface_texture::SurfaceTexture, texture_view::TextureView, vertex::Vertex, vsync::Vsync,
     what_frame::WhatFrame, window_surface::WindowSurface,
 };

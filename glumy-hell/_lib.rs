@@ -1,4 +1,5 @@
+mod app;
 mod render;
 mod window;
 
-pub use {render::*, window::*};
+pub use {app::*, render::*, window::*};
