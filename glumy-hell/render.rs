@@ -19,6 +19,7 @@ mod mesh;
 mod render_pass;
 mod render_pass_color_attach;
 mod render_pass_depth_attach;
+mod render_pass_descriptor;
 mod shader_stages;
 mod surface_texture;
 mod texture_view;
@@ -35,7 +36,7 @@ pub use {
     glumy_hell_error::GlumyHellError, gpu_instance::GpuInstance, graphics_device::GraphicsDevice,
     latency::Latency, material::Material, mesh::Mesh, render_pass::RenderPass,
     render_pass_color_attach::RenderPassColorAttach,
-    render_pass_depth_attach::RenderPassDepthAttach, shader_stages::ShaderStages,
-    surface_texture::SurfaceTexture, texture_view::TextureView, vertex::Vertex, vsync::Vsync,
-    what_frame::WhatFrame, window_surface::WindowSurface,
+    render_pass_depth_attach::RenderPassDepthAttach, render_pass_descriptor::RenderPassDescriptor,
+    shader_stages::ShaderStages, surface_texture::SurfaceTexture, texture_view::TextureView,
+    vertex::Vertex, vsync::Vsync, what_frame::WhatFrame, window_surface::WindowSurface,
 };

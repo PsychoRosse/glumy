@@ -1,4 +1,4 @@
-use crate::{CommandEncoder, RenderPassColorAttach, RenderPassDepthAttach};
+use crate::{CommandEncoder, RenderPassDescriptor};
 
 use smallvec::SmallVec;
 
@@ -11,48 +11,47 @@ type DepthAttach<'r> = Option<wgpu::RenderPassDepthStencilAttachment<'r>>;
 
 #[derive(Default, Debug)]
 pub struct RenderPass<'r> {
-    _pass: Option<wgpu::RenderPass<'r>>,
     color_attaches: ColorAttaches<'r>,
     depth_attach: DepthAttach<'r>,
 }
 
 impl<'r> RenderPass<'r> {
-    pub fn with_colors(mut self, colors: &[RenderPassColorAttach<'r>]) -> Self {
-        self.color_attaches = Some(
-            colors
-                .iter()
-                .map(|attachment| {
-                    Some(wgpu::RenderPassColorAttachment {
-                        view: attachment.view.get(),
-                        depth_slice: None,
-                        resolve_target: None,
-                        ops: wgpu::Operations {
-                            load: attachment.load_op,
-                            store: attachment.store_op,
-                        },
-                    })
+    pub fn init(desc: RenderPassDescriptor<'r>) -> Self {
+        let color_attaches = desc
+            .color_attaches
+            .iter()
+            .map(|attachment| {
+                Some(wgpu::RenderPassColorAttachment {
+                    view: attachment.view.get(),
+                    depth_slice: None,
+                    resolve_target: None,
+                    ops: wgpu::Operations {
+                        load: attachment.load_op,
+                        store: attachment.store_op,
+                    },
                 })
-                .collect(),
-        );
+            })
+            .collect();
 
-        self
-    }
+        let depth_attach =
+            desc.depth_attach
+                .map(|attachment| wgpu::RenderPassDepthStencilAttachment {
+                    view: attachment.view.get(),
 
-    pub fn with_depth(mut self, depth: Option<&RenderPassDepthAttach<'r>>) -> Self {
-        self.depth_attach = depth.map(|attachment| wgpu::RenderPassDepthStencilAttachment {
-            view: attachment.view.get(),
+                    depth_ops: Some(wgpu::Operations {
+                        load: attachment.depth_load_op,
+                        store: attachment.depth_store_op,
+                    }),
 
-            depth_ops: Some(wgpu::Operations {
-                load: attachment.depth_load_op,
-                store: attachment.depth_store_op,
-            }),
+                    stencil_ops: attachment
+                        .stencil_ops
+                        .map(|(load, store)| wgpu::Operations { load, store }),
+                });
 
-            stencil_ops: attachment
-                .stencil_ops
-                .map(|(load, store)| wgpu::Operations { load, store }),
-        });
-
-        self
+        Self {
+            color_attaches: Some(color_attaches),
+            depth_attach,
+        }
     }
 
     pub fn begin(self, encoder: &'r mut CommandEncoder) {

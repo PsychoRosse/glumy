@@ -1,5 +1,6 @@
 use crate::{
-    Color, GraphicsDevice, RenderPass, RenderPassColorAttach, SurfaceTexture, WindowSurface,
+    Color, GraphicsDevice, RenderPass, RenderPassColorAttach, RenderPassDescriptor, SurfaceTexture,
+    WindowSurface,
 };
 
 use clama::{Plugin, Registry, Res, ResMut, Stage};
@@ -28,10 +29,11 @@ impl RenderPlugin {
             {
                 let attach = RenderPassColorAttach::clear(&view, Color::rgb(0.05, 0.05, 0.05));
 
-                let _ = RenderPass::default()
-                    .with_colors(&[attach])
-                    .with_depth(None)
-                    .begin(&mut encoder);
+                let _ = RenderPass::init(RenderPassDescriptor {
+                    color_attaches: &[attach],
+                    depth_attach: None,
+                })
+                .begin(&mut encoder);
             }
 
             device.present(encoder, frame);

@@ -6,13 +6,13 @@ use crate::{
 use clama::{Plugin, PluginRegistry, Registry, Scheduler, World, WorldCell};
 
 #[derive(Default)]
-pub struct App {
+pub struct GlumyApp {
     world: World,
     plugins: PluginRegistry,
     scheduler: Scheduler,
 }
 
-impl App {
+impl GlumyApp {
     pub fn run_from(mut self, attr: WindowAttributes) -> Result<(), EventLoopError> {
         self.plugins
             .build(WorldCell::from(&mut self.world), &mut self.scheduler);
@@ -26,7 +26,7 @@ impl App {
     }
 }
 
-impl Application for App {
+impl Application for GlumyApp {
     fn start(&mut self, window: &impl WindowFrontend, handle: &impl WindowHandle) {
         let glumy = Glumy::create(GlumyDescriptor {
             surface_target: handle.target().unwrap(),

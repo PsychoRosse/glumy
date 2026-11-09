@@ -1,7 +1,7 @@
-use glumy::{App, EventLoopError, RenderPlugin, WindowAttributes};
+use glumy::{EventLoopError, GlumyApp, RenderPlugin, WindowAttributes};
 
 fn main() -> Result<(), EventLoopError> {
-    App::default()
+    GlumyApp::default()
         .with_plugin(RenderPlugin)
         .run_from(WindowAttributes::default())
 }
