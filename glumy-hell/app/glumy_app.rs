@@ -1,5 +1,5 @@
 use crate::{
-    Application, EventLoopError, Glumy, GlumyDescriptor, Latency, Vsync, WindowApplication,
+    Application, EventLoopError, Glumy, GlumyDescriptor, FrameLatency, VerticalSync, WindowApplication,
     WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId,
 };
 
@@ -31,8 +31,8 @@ impl Application for GlumyApp {
         let glumy = Glumy::create(GlumyDescriptor {
             surface_target: handle.target().unwrap(),
             surface_size: window.size(),
-            vsync: Vsync::default(),
-            frame_latency: Latency::Two,
+            vertical_sync: VerticalSync::default(),
+            frame_latency: FrameLatency::Two,
         })
         .unwrap();
 

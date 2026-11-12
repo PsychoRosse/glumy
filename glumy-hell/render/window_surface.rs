@@ -42,7 +42,13 @@ impl WindowSurface {
             wgpu::CurrentSurfaceTexture::Suboptimal(frame) => {
                 AcquireFrame::Frame(Some(SurfaceTexture::new(frame)), WhatFrame::Suboptimal)
             }
-            _ => AcquireFrame::Frame(None, WhatFrame::Unknown),
+            wgpu::CurrentSurfaceTexture::Validation => {
+                AcquireFrame::Frame(None, WhatFrame::Validation)
+            }
+            wgpu::CurrentSurfaceTexture::Timeout => AcquireFrame::Frame(None, WhatFrame::Timeout),
+            wgpu::CurrentSurfaceTexture::Outdated => AcquireFrame::Frame(None, WhatFrame::Outdated),
+            wgpu::CurrentSurfaceTexture::Occluded => AcquireFrame::Frame(None, WhatFrame::Occluded),
+            wgpu::CurrentSurfaceTexture::Lost => AcquireFrame::Frame(None, WhatFrame::Lost),
         }
     }
 

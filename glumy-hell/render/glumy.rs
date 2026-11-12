@@ -24,7 +24,7 @@ impl Glumy {
             format,
             width: desc.surface_size.width(),
             height: desc.surface_size.height(),
-            present_mode: wgpu::PresentMode::from(desc.vsync),
+            present_mode: wgpu::PresentMode::from(desc.vertical_sync),
             alpha_mode: capabilities.alpha_modes[0],
             view_formats: vec![],
             desired_maximum_frame_latency: desc.frame_latency.get_number(),

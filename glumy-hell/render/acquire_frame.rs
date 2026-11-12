@@ -15,4 +15,24 @@ impl AcquireFrame {
             _ => None,
         }
     }
+
+    pub fn is_validation(&self) -> bool {
+        matches!(self, AcquireFrame::Frame(_, WhatFrame::Validation))
+    }
+
+    pub fn is_timeout(&self) -> bool {
+        matches!(self, AcquireFrame::Frame(_, WhatFrame::Timeout))
+    }
+
+    pub fn is_outdated(&self) -> bool {
+        matches!(self, AcquireFrame::Frame(_, WhatFrame::Outdated))
+    }
+
+    pub fn is_occluded(&self) -> bool {
+        matches!(self, AcquireFrame::Frame(_, WhatFrame::Occluded))
+    }
+
+    pub fn is_lost(&self) -> bool {
+        matches!(self, AcquireFrame::Frame(_, WhatFrame::Lost))
+    }
 }

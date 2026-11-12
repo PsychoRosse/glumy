@@ -1,10 +1,20 @@
-use crate::BufferUsages;
+use crate::{BufferDescriptor, BufferUsages};
 
 #[derive(Debug, Clone)]
 pub struct Buffer {
     label: String,
     content: Vec<u8>,
     usages: BufferUsages,
+}
+
+impl Buffer {
+    pub fn new(desc: BufferDescriptor) -> Self {
+        Self {
+            label: String::from(desc.label),
+            content: Vec::from(desc.content),
+            usages: desc.usages,
+        }
+    }
 }
 
 impl Buffer {

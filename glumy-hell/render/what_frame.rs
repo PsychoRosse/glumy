@@ -4,5 +4,9 @@ use clama::Event;
 pub enum WhatFrame {
     Success,
     Suboptimal,
-    Unknown,
+    Validation,
+    Timeout,
+    Outdated,
+    Occluded,
+    Lost,
 }
