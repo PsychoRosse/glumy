@@ -1,4 +1,9 @@
 mod acquire_frame;
+mod bind_group;
+mod bind_group_descriptor;
+mod bind_group_entry;
+mod bind_group_layout;
+mod binding_resource;
 mod buffer;
 mod buffer_descriptor;
 mod buffer_error;
@@ -29,7 +34,9 @@ mod what_frame;
 mod window_surface;
 
 pub use {
-    acquire_frame::AcquireFrame, buffer::Buffer, buffer_descriptor::BufferDescriptor,
+    acquire_frame::AcquireFrame, bind_group::BindGroup, bind_group_descriptor::BindGroupDescriptor,
+    bind_group_entry::BindGroupEntry, bind_group_layout::BindGroupLayout,
+    binding_resource::BindingResource, buffer::Buffer, buffer_descriptor::BufferDescriptor,
     buffer_error::BufferError, buffer_usages::BufferUsages, color::Color,
     command_encoder::CommandEncoder, current_surface_texture::CurrentSurfaceTexture,
     frame_latency::FrameLatency, glumy::Glumy, glumy_descriptor::GlumyDescriptor,

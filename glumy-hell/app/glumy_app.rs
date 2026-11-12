@@ -1,6 +1,6 @@
 use crate::{
-    Application, EventLoopError, Glumy, GlumyDescriptor, FrameLatency, VerticalSync, WindowApplication,
-    WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId,
+    Application, EventLoopError, FrameLatency, Glumy, GlumyDescriptor, VerticalSync,
+    WindowApplication, WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId,
 };
 
 use clama::{Plugin, PluginRegistry, Registry, Scheduler, World, WorldCell};

@@ -17,6 +17,9 @@ path = "glumy-sandbox/src/main.rs"
 path = "glumy-hell/_lib.rs"
 
 [dependencies]
+plam = { git = "https://github.com/PsychoRosse/plam" }
+clama = { git = "https://github.com/PsychoRosse/clama" }
+
 wgpu = { version = "30.0.1" }
 winit = { version = "0.31.0-beta.4" }
 bytemuck = { version = "1.25.2", features = ["derive"] }
@@ -25,9 +28,6 @@ bitflags = { version = "2.13.1" }
 thiserror = { version = "2.0.21" }
 raw-window-handle = { version = "0.6.2" }
 smallvec = { version = "1.16.4" }
-
-plam = { version = "0.2.0" }
-clama = { version = "0.1.0" }
 
 serde = { version = "1.0.229", features = ["derive"], optional = true }
 
