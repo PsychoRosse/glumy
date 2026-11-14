@@ -23,18 +23,16 @@ impl RenderPlugin {
 
         if let Some(frame) = acquire_frame.is_success_suboptimal_take() {
             let view = SurfaceTexture::create_view(&frame);
+            let color = Color::rgb(0.05, 0.05, 0.05);
 
             let mut encoder = device.create_encoder();
 
-            {
-                let attach = RenderPassColorAttach::clear(&view, Color::rgb(0.05, 0.05, 0.05));
+            let pass_desc = RenderPassDescriptor {
+                color_attaches: &[RenderPassColorAttach::clear(&view, color)],
+                depth_attach: None,
+            };
 
-                let _ = RenderPass::init(RenderPassDescriptor {
-                    color_attaches: &[attach],
-                    depth_attach: None,
-                })
-                .begin(&mut encoder);
-            }
+            let _ = RenderPass::begin(&mut encoder, pass_desc, |_| {});
 
             device.present(encoder, frame);
         }

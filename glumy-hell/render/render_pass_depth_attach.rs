@@ -6,7 +6,6 @@ pub struct RenderPassDepthAttach<'r> {
 
     pub(crate) depth_load_op: wgpu::LoadOp<f32>,
     pub(crate) depth_store_op: wgpu::StoreOp,
-
     pub(crate) stencil_ops: Option<(wgpu::LoadOp<u32>, wgpu::StoreOp)>,
 }
 
