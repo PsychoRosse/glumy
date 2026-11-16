@@ -9,7 +9,6 @@ It provides a unified interface for graphics and window management, reducing dir
 - Graphics abstraction built on `wgpu`
 - Window and event management through `winit`
 - Shared mathematical types via `plam`
-- Optional serialization support through `serde`
 - ECS integration through `clama`
 
 ## License
