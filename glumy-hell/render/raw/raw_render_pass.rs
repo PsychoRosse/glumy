@@ -1,6 +1,6 @@
-use smallvec::SmallVec;
+use crate::{RawCommandEncoder, RawRenderPassEncoder, RenderPassDescriptor};
 
-use crate::{RawCommandEncoder, RenderPassDescriptor};
+use smallvec::SmallVec;
 
 pub struct RawRenderPass;
 
@@ -8,7 +8,7 @@ impl RawRenderPass {
     pub fn begin<R>(
         encoder: &mut RawCommandEncoder,
         desc: &RenderPassDescriptor<'_>,
-        f: impl FnOnce(&mut wgpu::RenderPass<'_>) -> R,
+        f: impl FnOnce(&mut RawRenderPassEncoder<'_>) -> R,
     ) -> R {
         let color_attachments: SmallVec<[Option<wgpu::RenderPassColorAttachment<'_>>; 4]> = desc
             .color_attaches
@@ -43,7 +43,7 @@ impl RawRenderPass {
             }
         });
 
-        let mut pass = encoder
+        let raw = encoder
             .raw_get_mut()
             .begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: Some(&desc.label),
@@ -53,6 +53,8 @@ impl RawRenderPass {
                 occlusion_query_set: None,
                 multiview_mask: None,
             });
+
+        let mut pass = RawRenderPassEncoder::from_wgpu(raw);
 
         f(&mut pass)
     }

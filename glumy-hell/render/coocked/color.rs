@@ -32,14 +32,12 @@ impl Color {
 }
 
 impl Color {
-    pub(crate) fn to_wgpu(color: Color) -> wgpu::Color {
-        let array = color.value;
-
+    pub(crate) fn to_wgpu(&self) -> wgpu::Color {
         wgpu::Color {
-            r: array[0],
-            g: array[1],
-            b: array[2],
-            a: array[3],
+            r: self.value[0],
+            g: self.value[1],
+            b: self.value[2],
+            a: self.value[3],
         }
     }
 }

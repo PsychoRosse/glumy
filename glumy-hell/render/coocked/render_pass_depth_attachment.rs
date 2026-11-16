@@ -1,4 +1,4 @@
-use crate::{RawRenderPassDepthAttachment, TextureView};
+use crate::{LoadOp, RawRenderPassDepthAttachment, StoreOp, TextureView};
 
 pub struct RenderPassDepthAttachment<'r> {
     pub(crate) attach: RawRenderPassDepthAttachment<'r>,
@@ -7,13 +7,23 @@ pub struct RenderPassDepthAttachment<'r> {
 impl<'r> RenderPassDepthAttachment<'r> {
     pub fn clear(view: &'r TextureView, depth: f32) -> Self {
         Self {
-            attach: RawRenderPassDepthAttachment::clear(view.raw_get(), depth),
+            attach: RawRenderPassDepthAttachment::new(
+                view.raw_get(),
+                LoadOp::Clear(depth),
+                StoreOp::Store,
+                None,
+            ),
         }
     }
 
     pub fn load(view: &'r TextureView) -> Self {
         Self {
-            attach: RawRenderPassDepthAttachment::load(view.raw_get()),
+            attach: RawRenderPassDepthAttachment::new(
+                view.raw_get(),
+                LoadOp::Load,
+                StoreOp::Store,
+                None,
+            ),
         }
     }
 

@@ -1,4 +1,4 @@
-use crate::RawTextureView;
+use crate::{LoadOp, RawTextureView, StoreOp};
 
 pub struct RawRenderPassDepthAttachment<'r> {
     pub(crate) view: &'r wgpu::TextureView,
@@ -8,6 +8,20 @@ pub struct RawRenderPassDepthAttachment<'r> {
 }
 
 impl<'r> RawRenderPassDepthAttachment<'r> {
+    pub fn new(
+        view: &'r RawTextureView,
+        depth_load_op: LoadOp<f32>,
+        depth_store_op: StoreOp,
+        stencil_ops: Option<(LoadOp<u32>, StoreOp)>,
+    ) -> Self {
+        Self {
+            view: view.raw_get(),
+            depth_load_op: depth_load_op.to_wgpu_f32(),
+            depth_store_op: depth_store_op.to_wgpu(),
+            stencil_ops: stencil_ops.map(|(load, store)| (load.to_wgpu_u32(), store.to_wgpu())),
+        }
+    }
+
     pub fn clear(view: &'r RawTextureView, depth: f32) -> Self {
         Self {
             view: view.raw_get(),

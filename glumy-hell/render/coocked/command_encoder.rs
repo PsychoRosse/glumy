@@ -9,8 +9,12 @@ impl CommandEncoder {
         Self { raw }
     }
 
-    pub fn raw(&self) -> &RawCommandEncoder {
+    pub fn raw_get(&self) -> &RawCommandEncoder {
         &self.raw
+    }
+
+    pub fn raw_get_mut(&mut self) -> &mut RawCommandEncoder {
+        &mut self.raw
     }
 
     pub fn take(self) -> RawCommandEncoder {

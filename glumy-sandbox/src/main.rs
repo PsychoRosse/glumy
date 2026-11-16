@@ -1,5 +1,8 @@
 use glumy::{
-    Application, Color, EventLoopError, GpuInstance, GraphicsDevice, Hell, HellDescriptor, RenderPassColorAttachment, RenderPassDepthAttachment, WindowApplication, WindowAttributes, WindowEvent, WindowFrontend, WindowHandle, WindowId, WindowSurface,
+    Application, Color, EventLoopError, GpuInstance, GraphicsDevice, Hell, HellDescriptor, LoadOp,
+    RenderPass, RenderPassColorAttachment, RenderPassDepthAttachment, RenderPassDescriptor,
+    StoreOp, WindowApplication, WindowAttributes, WindowEvent, WindowFrontend, WindowHandle,
+    WindowId, WindowSurface,
 };
 
 use pollster::block_on;
@@ -57,10 +60,22 @@ impl Application for HellApp {
 
                     let mut encoder = device.create_encoder();
 
-                    let color_attach = &[RenderPassColorAttachment::new(&view, None)];
-                    let depth_attach = RenderPassDepthAttachment::clear(&view, 1.0);
+                    let color_attaches = &[RenderPassColorAttachment::new(
+                        &view,
+                        None,
+                        LoadOp::Clear(Color::WHITE),
+                        StoreOp::Store,
+                    )];
 
-                    let render_pass = RenderPass
+                    let render_pass = RenderPass::begin(
+                        &mut encoder,
+                        &RenderPassDescriptor {
+                            label: "Render Pass Descriptor",
+                            color_attaches: color_attaches,
+                            depth_attach: None,
+                        },
+                        |pass| {},
+                    );
 
                     device.present(encoder, frame);
                 }
