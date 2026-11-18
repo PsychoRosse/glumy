@@ -1,16 +1,16 @@
 # Glumy
 
-Glumy is a lightweight graphics abstraction library for the Kodanu game engine, built on top of `wgpu` and `winit`.
+Glumy is a lightweight windowing abstraction library for the [Kodanu](#) game engine, built on top of `winit`.
 
-It provides a unified interface for graphics and window management, reducing direct interaction with underlying APIs and simplifying their integration into the engine.
+It provides a unified and ergonomic API for window management and event handling, hiding low-level implementation details and simplifying integration with the engine.
 
 ## Features
 
-- Graphics abstraction built on `wgpu`
-- Window and event management through `winit`
-- Shared mathematical types via `plam`
-- ECS integration through `clama`
+- **Windowing** — ergonomic window creation and management
+- **Events** — simplified event handling through `winit`
+- **Math** — shared mathematical types through `plam`
+- **ECS** — integration with the `clama` entity component system
 
 ## License
 
-Licensed under either MIT or Apache-2.0, at your option.
+Licensed under either [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at your option.

@@ -2,11 +2,11 @@
 name = "glumy"
 version = "1.1.0"
 edition = "2024"
-description = "A lightweight graphics abstraction layer built on wgpu and winit."
+description = "A lightweight, ergonomic windowing abstraction built on winit."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/PsychoRosse/glumy"
 readme = "README.md"
-keywords = ["graphics", "wgpu"]
+keywords = ["graphics", "winit"]
 categories = ["game-development"]
 
 [[bin]]
@@ -20,14 +20,9 @@ path = "glumy-hell/_lib.rs"
 plam = { git = "https://github.com/PsychoRosse/plam" }
 clama = { git = "https://github.com/PsychoRosse/clama" }
 
-wgpu = { version = "30.0.1" }
 winit = { version = "0.31.0-beta.4" }
-bytemuck = { version = "1.25.2", features = ["derive"] }
-pollster = { version = "1.0.1" }
-bitflags = { version = "2.13.1" }
 thiserror = { version = "2.0.21" }
 raw-window-handle = { version = "0.6.2" }
-smallvec = { version = "1.16.4" }
 
 serde = { version = "1.0.229", features = ["derive"], optional = true }
 

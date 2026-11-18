@@ -57,7 +57,7 @@ impl WindowHandle for WindowBackend {
 impl From<Box<dyn window::Window>> for WindowBackend {
     fn from(value: Box<dyn window::Window>) -> Self {
         Self {
-            window: std::sync::Arc::from(value),
+            window: Arc::from(value),
         }
     }
 }
