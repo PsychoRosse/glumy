@@ -1,27 +1,22 @@
-use plam::MouseScroll;
-
-use clama::Event;
-
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Event, Debug, Clone, Copy, PartialEq)]
+#[derive(clama::Event, Debug, Clone, Copy, PartialEq)]
 pub struct MouseWheelEvent {
-    scroll: MouseScroll,
-}
-
-impl From<MouseScroll> for MouseWheelEvent {
-    #[inline]
-    fn from(value: MouseScroll) -> Self {
-        Self { scroll: value }
-    }
+    scroll: plam::MouseScroll,
 }
 
 impl MouseWheelEvent {
     #[inline]
     #[must_use]
-    pub const fn scroll(&self) -> MouseScroll {
+    pub fn from_mouse_scroll(scroll: plam::MouseScroll) -> Self {
+        Self { scroll: scroll }
+    }
+
+    #[inline]
+    #[must_use]
+    pub const fn scroll(&self) -> plam::MouseScroll {
         self.scroll
     }
 }

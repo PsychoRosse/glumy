@@ -1,15 +1,11 @@
 use crate::{SurfaceTarget, WindowFrontend, WindowHandle, WindowHandlerError};
 
-use {
-    plam::SurfaceSize,
-    raw_window_handle::{HasDisplayHandle, HasWindowHandle},
-    std::sync::Arc,
-};
+use raw_window_handle::{HasDisplayHandle, HasWindowHandle};
 
 use winit::window;
 
 pub struct WindowBackend {
-    window: Arc<dyn window::Window>,
+    window: std::sync::Arc<dyn window::Window>,
 }
 
 impl std::fmt::Debug for WindowBackend {
@@ -29,10 +25,10 @@ impl WindowFrontend for WindowBackend {
     }
 
     #[inline]
-    fn size(&self) -> SurfaceSize {
+    fn size(&self) -> plam::SurfaceSize {
         let size = self.window.surface_size();
 
-        SurfaceSize::clamped(size.width, size.height)
+        plam::SurfaceSize::clamped(size.width, size.height)
     }
 }
 
@@ -54,10 +50,10 @@ impl WindowHandle for WindowBackend {
     }
 }
 
-impl From<Box<dyn window::Window>> for WindowBackend {
-    fn from(value: Box<dyn window::Window>) -> Self {
+impl WindowBackend {
+    pub fn from_box_winit_to_arc(window: Box<dyn window::Window>) -> Self {
         Self {
-            window: Arc::from(value),
+            window: std::sync::Arc::from(window),
         }
     }
 }

@@ -81,7 +81,7 @@ impl<A: Application> application::ApplicationHandler for WindowApplication<A> {
             .create_window(window::WindowAttributes::from(self.attributes))
             .unwrap_or_else(|_| panic!("{}", WindowError::WindowCreation));
 
-        let window = WindowBackend::from(window);
+        let window = WindowBackend::from_box_winit_to_arc(window);
 
         self.application.start(&window, &window);
 

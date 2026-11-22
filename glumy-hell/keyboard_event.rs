@@ -1,12 +1,10 @@
 use crate::{Key, KeyStatus};
 
-use clama::Event;
-
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Event, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(clama::Event, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct KeyboardEvent {
     key: Key,
     state: KeyStatus,

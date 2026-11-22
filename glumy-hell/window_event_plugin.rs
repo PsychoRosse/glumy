@@ -1,23 +1,18 @@
 use crate::{Closing, KeyboardEvent, MouseEvent, MouseWheelEvent, Redrawing};
 
-pub use {
-    clama::{EventBuffer, Plugin, Registry},
-    plam::{MousePosition, SurfaceSize},
-};
-
 pub struct WindowEventPlugin;
 
-impl Plugin for WindowEventPlugin {
-    fn build(&self, registry: &mut impl Registry) {
+impl clama::Plugin for WindowEventPlugin {
+    fn build(&self, registry: &mut impl clama::Registry) {
         registry
-            .with_event(EventBuffer::<Closing>::default())
-            .with_event(EventBuffer::<Redrawing>::default())
-            .with_event(EventBuffer::<SurfaceSize>::default());
+            .with_event(clama::EventBuffer::<Closing>::default())
+            .with_event(clama::EventBuffer::<Redrawing>::default())
+            .with_event(clama::EventBuffer::<plam::SurfaceSize>::default());
 
         registry
-            .with_event(EventBuffer::<KeyboardEvent>::default())
-            .with_event(EventBuffer::<MouseEvent>::default())
-            .with_event(EventBuffer::<MousePosition>::default())
-            .with_event(EventBuffer::<MouseWheelEvent>::default());
+            .with_event(clama::EventBuffer::<KeyboardEvent>::default())
+            .with_event(clama::EventBuffer::<MouseEvent>::default())
+            .with_event(clama::EventBuffer::<plam::MousePosition>::default())
+            .with_event(clama::EventBuffer::<MouseWheelEvent>::default());
     }
 }

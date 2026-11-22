@@ -2,8 +2,6 @@ use crate::{
     Button, ButtonStatus, Key, KeyStatus, KeyboardEvent, MouseEvent, MouseWheelEvent, WindowEvent,
 };
 
-use plam::{MousePosition, MouseScroll, MouseScrollDelta, SurfaceSize};
-
 use winit::{event, keyboard};
 
 pub struct WinitEventConverter;
@@ -15,7 +13,7 @@ impl WinitEventConverter {
             event::WindowEvent::CloseRequested => Some(WindowEvent::CloseRequested),
             event::WindowEvent::RedrawRequested => Some(WindowEvent::RedrawRequested),
             event::WindowEvent::SurfaceResized(size) => {
-                let size = SurfaceSize::clamped(size.width, size.height);
+                let size = plam::SurfaceSize::clamped(size.width, size.height);
 
                 Some(WindowEvent::SurfaceResized(size))
             }
@@ -28,8 +26,8 @@ impl WinitEventConverter {
                 Some(WindowEvent::KeyboardInput(event))
             }
             event::WindowEvent::PointerMoved { position, .. } => {
-                let position =
-                    MousePosition::new(position.x as f32, position.y as f32).unwrap_or_default();
+                let position = plam::MousePosition::new(position.x as f32, position.y as f32)
+                    .unwrap_or_default();
 
                 Some(WindowEvent::PointerMoved(position))
             }
@@ -43,15 +41,16 @@ impl WinitEventConverter {
             }
             event::WindowEvent::MouseWheel { delta, .. } => match delta {
                 event::MouseScrollDelta::LineDelta(x, y) => {
-                    let delta = MouseScrollDelta::new(x, y).unwrap_or_default();
-                    let event = MouseWheelEvent::from(MouseScroll::Lines(delta));
+                    let delta = plam::MouseScrollDelta::new(x, y).unwrap_or_default();
+                    let event = MouseWheelEvent::from_mouse_scroll(plam::MouseScroll::Lines(delta));
 
                     Some(WindowEvent::MouseWheel(event))
                 }
                 event::MouseScrollDelta::PixelDelta(delta) => {
-                    let delta =
-                        MouseScrollDelta::new(delta.x as f32, delta.y as f32).unwrap_or_default();
-                    let event = MouseWheelEvent::from(MouseScroll::Pixels(delta));
+                    let delta = plam::MouseScrollDelta::new(delta.x as f32, delta.y as f32)
+                        .unwrap_or_default();
+                    let event =
+                        MouseWheelEvent::from_mouse_scroll(plam::MouseScroll::Pixels(delta));
 
                     Some(WindowEvent::MouseWheel(event))
                 }

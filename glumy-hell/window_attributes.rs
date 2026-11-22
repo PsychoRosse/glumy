@@ -1,5 +1,3 @@
-use plam::WindowSize;
-
 use winit::{dpi, window};
 
 #[cfg(feature = "serde")]
@@ -9,8 +7,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct WindowAttributes {
     title: &'static str,
-    size: WindowSize,
-    min_size: WindowSize,
+    size: plam::WindowSize,
+    min_size: plam::WindowSize,
     maximized: bool,
     decorations: bool,
 }
@@ -19,8 +17,8 @@ impl Default for WindowAttributes {
     fn default() -> Self {
         Self {
             title: "Engine",
-            size: WindowSize::default(),
-            min_size: WindowSize::default(),
+            size: plam::WindowSize::default(),
+            min_size: plam::WindowSize::default(),
             maximized: false,
             decorations: true,
         }
@@ -34,12 +32,12 @@ impl WindowAttributes {
     }
 
     pub fn with_size(mut self, width: u32, height: u32) -> Self {
-        self.size = WindowSize::clamped(width, height);
+        self.size = plam::WindowSize::clamped(width, height);
         self
     }
 
     pub fn with_min_size(mut self, min_width: u32, min_height: u32) -> Self {
-        self.min_size = WindowSize::clamped(min_width, min_height);
+        self.min_size = plam::WindowSize::clamped(min_width, min_height);
         self
     }
 
