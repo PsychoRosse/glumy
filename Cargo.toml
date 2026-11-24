@@ -14,7 +14,7 @@ name = "glumy"
 path = "glumy-sandbox/src/main.rs"
 
 [lib]
-path = "glumy-hell/_lib.rs"
+path = "glumy-hell/src/_lib.rs"
 
 [dependencies]
 plam = { git = "https://github.com/PsychoRosse/plam" }

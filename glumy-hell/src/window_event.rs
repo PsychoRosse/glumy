@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 pub enum WindowEvent {
     CloseRequested,
     RedrawRequested,
-    SurfaceResized(plam::SurfaceSize),
+    SurfaceResized(plam::Extent),
     KeyboardInput(KeyboardEvent),
     MouseInput(MouseEvent),
     PointerMoved(plam::MousePosition),

@@ -25,10 +25,10 @@ impl WindowFrontend for WindowBackend {
     }
 
     #[inline]
-    fn size(&self) -> plam::SurfaceSize {
+    fn size(&self) -> plam::Extent {
         let size = self.window.surface_size();
 
-        plam::SurfaceSize::clamped(size.width, size.height)
+        plam::Extent::clamped(size.width, size.height)
     }
 }
 

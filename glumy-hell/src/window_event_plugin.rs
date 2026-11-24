@@ -7,7 +7,7 @@ impl clama::Plugin for WindowEventPlugin {
         registry
             .with_event(clama::EventBuffer::<Closing>::default())
             .with_event(clama::EventBuffer::<Redrawing>::default())
-            .with_event(clama::EventBuffer::<plam::SurfaceSize>::default());
+            .with_event(clama::EventBuffer::<plam::Extent>::default());
 
         registry
             .with_event(clama::EventBuffer::<KeyboardEvent>::default())

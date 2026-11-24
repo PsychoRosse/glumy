@@ -13,7 +13,7 @@ impl WinitEventConverter {
             event::WindowEvent::CloseRequested => Some(WindowEvent::CloseRequested),
             event::WindowEvent::RedrawRequested => Some(WindowEvent::RedrawRequested),
             event::WindowEvent::SurfaceResized(size) => {
-                let size = plam::SurfaceSize::clamped(size.width, size.height);
+                let size = plam::Extent::clamped(size.width, size.height);
 
                 Some(WindowEvent::SurfaceResized(size))
             }
