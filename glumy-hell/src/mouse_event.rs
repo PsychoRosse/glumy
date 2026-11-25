@@ -12,6 +12,7 @@ pub struct MouseEvent {
 
 impl MouseEvent {
     #[inline]
+    #[must_use]
     pub const fn new(button: Button, state: ButtonStatus) -> Self {
         Self { button, state }
     }
