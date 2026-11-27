@@ -1,3 +1,3 @@
 mod window_plugin;
 
-pub use window_plugin::WindowEventPlugin;
+pub use window_plugin::WindowPlugin;

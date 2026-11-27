@@ -1,5 +1,7 @@
 use crate::{KeyboardEvent, MouseEvent, MouseWheelEvent};
 
+use plam::{Extent, MousePosition};
+
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -8,9 +10,9 @@ use serde::{Deserialize, Serialize};
 pub enum WindowEvent {
     CloseRequested,
     RedrawRequested,
-    SurfaceResized(plam::Extent),
+    SurfaceResized(Extent),
     KeyboardInput(KeyboardEvent),
     MouseInput(MouseEvent),
-    PointerMoved(plam::MousePosition),
+    PointerMoved(MousePosition),
     MouseWheel(MouseWheelEvent),
 }

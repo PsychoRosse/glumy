@@ -4,18 +4,15 @@ use std::{
     time::Duration,
 };
 
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-pub struct DeviceState<D: Eq + Hash + Copy> {
+#[derive(Debug)]
+pub struct DeviceState<D: Copy + Eq + Hash> {
     pressed: HashSet<D>,
     just_pressed: HashSet<D>,
     just_released: HashSet<D>,
-    held_for: HashMap<D, std::time::Duration>,
+    held_for: HashMap<D, Duration>,
 }
 
-impl<D: Eq + Hash + Copy> Default for DeviceState<D> {
+impl<D: Copy + Eq + Hash> Default for DeviceState<D> {
     fn default() -> Self {
         Self {
             pressed: HashSet::default(),
@@ -26,7 +23,7 @@ impl<D: Eq + Hash + Copy> Default for DeviceState<D> {
     }
 }
 
-impl<D: Eq + Hash + Copy> DeviceState<D> {
+impl<D: Copy + Eq + Hash> DeviceState<D> {
     pub fn with_capacity(capacity: usize) -> Self {
         Self {
             pressed: HashSet::with_capacity(capacity),
@@ -37,7 +34,7 @@ impl<D: Eq + Hash + Copy> DeviceState<D> {
     }
 }
 
-impl<D: Eq + Hash + Copy> DeviceState<D> {
+impl<D: Copy + Eq + Hash> DeviceState<D> {
     #[inline]
     pub fn clear(&mut self) {
         self.just_pressed.clear();
@@ -89,6 +86,10 @@ impl<D: Eq + Hash + Copy> DeviceState<D> {
 
     #[inline]
     pub fn update(&mut self, delta: f32) {
+        if !delta.is_finite() || delta <= 0.0 {
+            return;
+        }
+
         let delta = Duration::from_secs_f32(delta);
 
         for elapsed in self.held_for.values_mut() {

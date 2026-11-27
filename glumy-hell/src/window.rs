@@ -15,11 +15,11 @@ mod window_attributes;
 mod window_backend;
 mod window_error;
 mod window_event;
+mod window_event_plugin;
 mod window_frontend;
 mod window_handle;
 mod window_handle_error;
 mod window_id;
-mod window_plugin;
 mod winit_event_converter;
 
 pub use {
@@ -28,7 +28,8 @@ pub use {
     keyboard_event::KeyboardEvent, mouse_event::MouseEvent, mouse_wheel_event::MouseWheelEvent,
     redrawing::Redrawing, surface_target::SurfaceTarget, window_application::WindowApplication,
     window_attributes::WindowAttributes, window_backend::WindowBackend, window_error::WindowError,
-    window_event::WindowEvent, window_frontend::WindowFrontend, window_handle::WindowHandle,
+    window_event::WindowEvent, window_event_plugin::WindowEventPlugin,
+    window_frontend::WindowFrontend, window_handle::WindowHandle,
     window_handle_error::WindowHandlerError, window_id::WindowId,
     winit_event_converter::WinitEventConverter,
 };

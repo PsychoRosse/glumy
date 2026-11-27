@@ -1,14 +1,14 @@
-use crate::{InputPlugin, TimePlugin};
+use crate::{InputPlugin, TimePlugin, WindowEventPlugin};
 
 pub use clama::{Plugin, Registry};
 
-pub struct WindowEventPlugin;
+pub struct WindowPlugin;
 
-impl Plugin for WindowEventPlugin {
+impl Plugin for WindowPlugin {
     fn build(&self, registry: &mut impl Registry) {
         registry
-            .with_plugin(WindowEventPlugin)
             .with_plugin(TimePlugin)
+            .with_plugin(WindowEventPlugin)
             .with_plugin(InputPlugin);
     }
 }

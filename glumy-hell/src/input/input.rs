@@ -9,10 +9,6 @@ use {
     std::time::Duration,
 };
 
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[derive(Resource, Default)]
 pub struct Input {
     action_map: ActionMap,
@@ -72,9 +68,10 @@ impl Input {
 
         for event in position.iter() {
             if let Some(pervious) = input.mouse_position {
-                input.mouse_delta =
-                    MouseDelta::new(event.x() - pervious.x(), event.y() - pervious.y())
-                        .unwrap_or_default();
+                let current = MouseDelta::new(event.x() - pervious.x(), event.y() - pervious.y())
+                    .unwrap_or_default();
+
+                input.mouse_delta.checked_add(current).unwrap_or_default();
             }
 
             input.mouse_position = Some(*event);
@@ -83,15 +80,24 @@ impl Input {
         for event in wheel.iter() {
             match event.scroll() {
                 MouseScroll::Lines(lines) => {
-                    input.mouse_wheel_delta = MouseScrollDelta::new(
+                    let current = MouseScrollDelta::new(
                         lines.x() * MouseScrollDelta::DEFAULT_MULTIPLIER,
                         lines.y() * MouseScrollDelta::DEFAULT_MULTIPLIER,
                     )
-                    .unwrap_or_default()
+                    .unwrap_or_default();
+
+                    input
+                        .mouse_wheel_delta
+                        .checked_add(current)
+                        .unwrap_or_default();
                 }
                 MouseScroll::Pixels(pixels) => {
-                    input.mouse_wheel_delta =
-                        MouseScrollDelta::new(pixels.x(), pixels.y()).unwrap_or_default()
+                    let current = MouseScrollDelta::new(pixels.x(), pixels.y()).unwrap_or_default();
+
+                    input
+                        .mouse_wheel_delta
+                        .checked_add(current)
+                        .unwrap_or_default();
                 }
             }
         }
@@ -112,6 +118,7 @@ impl Input {
 }
 
 impl Input {
+    #[inline]
     #[must_use]
     pub fn key_held_for(&self, key: Key, seconds: f32) -> bool {
         if !seconds.is_finite() || seconds < 0.0 {
@@ -123,47 +130,56 @@ impl Input {
     }
 
     #[inline]
+    #[must_use]
     pub fn comb_pressed(&self, keys: &[Key]) -> bool {
         self.keyboard.contains_all(keys)
     }
 
     #[inline]
+    #[must_use]
     pub fn comb_just_pressed(&self, keys: &[Key]) -> bool {
         self.keyboard.contains_all(keys)
             && keys.iter().any(|key| self.keyboard.is_just_pressed(*key))
     }
 
     #[inline]
+    #[must_use]
     pub fn axis(&self, axis: Axis) -> f32 {
         self.action_map.axis(axis, self)
     }
 
     #[inline]
+    #[must_use]
     pub fn key_pressed(&self, key: Key) -> bool {
         self.keyboard.is_pressed(key)
     }
 
     #[inline]
+    #[must_use]
     pub fn key_just_pressed(&self, key: Key) -> bool {
         self.keyboard.is_just_pressed(key)
     }
 
     #[inline]
+    #[must_use]
     pub fn key_just_released(&self, key: Key) -> bool {
         self.keyboard.is_just_released(key)
     }
 
     #[inline]
+    #[must_use]
     pub fn button_pressed(&self, button: Button) -> bool {
         self.mouse.is_pressed(button)
     }
 
     #[inline]
+    #[must_use]
     pub fn button_just_pressed(&self, button: Button) -> bool {
         self.mouse.is_just_pressed(button)
     }
 
     #[inline]
+    #[must_use]
     pub fn button_just_released(&self, button: Button) -> bool {
         self.mouse.is_just_released(button)
     }

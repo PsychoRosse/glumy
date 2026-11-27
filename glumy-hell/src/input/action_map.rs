@@ -2,26 +2,28 @@ use crate::{Axis, AxisBinding, Input, Key};
 
 use std::collections::HashMap;
 
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct ActionMap {
-    axis: HashMap<Axis, AxisBinding>,
+    axes: HashMap<Axis, AxisBinding>,
 }
 
 impl Default for ActionMap {
     fn default() -> Self {
-        let axis = Self::create_binding();
+        let axes = HashMap::from([
+            (Axis::MoveX, AxisBinding::new(Key::A, Key::D)),
+            (Axis::MoveY, AxisBinding::new(Key::W, Key::S)),
+            (Axis::MoveZ, AxisBinding::new(Key::J, Key::K)),
+            (Axis::LookX, AxisBinding::new(Key::H, Key::L)),
+            (Axis::LookY, AxisBinding::new(Key::Q, Key::E)),
+        ]);
 
-        Self { axis }
+        Self { axes }
     }
 }
 
 impl ActionMap {
     #[inline]
     pub fn axis(&self, axis: Axis, input: &Input) -> f32 {
-        let Some(binding) = self.axis.get(&axis) else {
+        let Some(binding) = self.axes.get(&axis) else {
             return 0.0;
         };
 
@@ -36,17 +38,5 @@ impl ActionMap {
         }
 
         value
-    }
-}
-
-impl ActionMap {
-    fn create_binding() -> HashMap<Axis, AxisBinding> {
-        HashMap::from([
-            (Axis::MoveX, AxisBinding::new(Key::A, Key::D)),
-            (Axis::MoveY, AxisBinding::new(Key::W, Key::S)),
-            (Axis::MoveZ, AxisBinding::new(Key::J, Key::K)),
-            (Axis::LookX, AxisBinding::new(Key::H, Key::L)),
-            (Axis::LookY, AxisBinding::new(Key::Q, Key::E)),
-        ])
     }
 }
